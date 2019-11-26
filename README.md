@@ -13,10 +13,14 @@ What values are converted?
 - 12-13 digit values are treated as **milliseconds** since epoch
 - 15-16 digit values are treated as **microseconds** since epoch
 
-This program makes some assumptions about the range of years people would be interested in to limit false matches by the regex, effectively restricting to the years 1973-2128. For example `5574739532` would convert to `Sunday, August 28, 2146 10:45:32 AM`. It starts with a `5` which means it would be later than `2128` and **probably** not an intentional timestamp.
+This program makes some assumptions about the range of years to limit false matches by the regex, effectively restricting replacements to the years **1973-2128**. For example `5574739532` would convert to `Sunday, August 28, 2146 10:45:32 AM`. It starts with a `5` which means it would be later than `2128` and probably not an intentional timestamp - so it is **not** converted.
 
 ## Installation
-TODO
+- You can download a binary from the *Releases* section for supported platforms
+- If you'd like to build from source:
+    - have Rust 2018 installed (developed with 1.38, although slightly older versions should work) 
+    - clone this repository on your local filesystem
+    - run `cargo build --release` and copy the `target/release/zulu` binary to somewhere on your path, ie. `/usr/local/bin/`
 
 ## Usage
 Use `zulu` on the command line as part of a series of pipes, ie:
