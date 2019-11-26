@@ -15,7 +15,7 @@ const MICROS_DIVISOR: i64 = 1_000_000;
 
 #[derive(StructOpt, Debug)]
 struct Opt {
-    /// Format string, see Chrono's strftime module
+    /// Format string
     #[structopt(short = "f", long)]
     format: Option<String>,
 
