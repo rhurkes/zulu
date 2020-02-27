@@ -32,7 +32,7 @@ fn main() -> io::Result<()> {
     let opt = Opt::from_args();
     let stdin = io::stdin();
     let stdout = io::stdout();
-    let re = Regex::new(r"\d{9,16}").expect("Unable to compile regex");
+    let re = Regex::new(r"\d{9,16}").expect("Invalid regex");
     let mut buffer = String::new();
     let mut in_handle = stdin.lock();
     let mut out_handle = stdout.lock();
@@ -41,7 +41,7 @@ fn main() -> io::Result<()> {
     let mut output = buffer.to_string();
 
     for caps in re.captures_iter(&buffer) {
-        let matching = caps.get(0).unwrap().as_str();
+        let matching = caps.get(0).expect("Invalid regex capture").as_str();
         let length = matching.len();
         let ticks = matching
             .parse::<i64>()
@@ -54,9 +54,13 @@ fn main() -> io::Result<()> {
         }
     }
 
-    out_handle.write_all(output.as_bytes())?;
-
-    Ok(())
+    match out_handle.write_all(output.as_bytes()) {
+        Ok(_) => Ok(()),
+        Err(e) => {
+            eprintln!("{}", e);
+            Ok(())
+        }
+    }
 }
 
 fn get_dt(ticks: i64, length: usize, first_char: char, opt: &Opt) -> Option<String> {
